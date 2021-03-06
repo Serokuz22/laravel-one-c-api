@@ -7,7 +7,12 @@ Laravel OneCApi
 
 на данном этапе это dev вариант и загружается только группы и каталог, буду признателен если ктото решит потестировать.
 
-Публикуем config/one-c.php
+#Установка
+````
+composer require serokuz/laravel-one-c-api --dev
+````
+
+#Публикуем config/one-c.php
 ```
 php artisan vendor:publish --provider "Serokuz\OneCApi\OneCApiServiceProvider" --tag="config"
 ```
