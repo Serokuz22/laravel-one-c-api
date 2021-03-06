@@ -1,0 +1,37 @@
+{
+    "name": "serokuz/laravel-one-c-api",
+    "description": "1C Api",
+    "type": "library",
+    "keywords": ["laravel", "1c", "xml"],
+    "version": "0.0.1",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Serokuz22",
+            "email": "massivbarn@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.2",
+        "laravel/framework": "^8.0",
+        "ext-zip": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Serokuz\\OneCApi\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Serokuz\\OneCApi\\OneCApiServiceProvider"
+            ]
+        }
+    }
+}
