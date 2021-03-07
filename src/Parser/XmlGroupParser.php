@@ -5,10 +5,12 @@ namespace Serokuz\OneCApi\Parser;
 class XmlGroupParser
 {
     use XmlModel;
+    use XmlObserver;
 
     public function __construct()
     {
         $this->initModel('group');
+        $this->initObserver('group');
     }
 
     /**
@@ -26,14 +28,25 @@ class XmlGroupParser
                     $this->setModel($group)
                 );
                 $item->setAttribute($this->pId, '');
+
+                $this->runObserver('updating', $item, $group);
+
                 $item->update();
+
+                $this->runObserver('updated', $item, $group);
+
             } else { // если нет, создаем новую запись
                 $item = new $this->model;
                 $item->setAttribute($this->id, (string)$group->{'Ид'});
                 $item->fill(
                     $this->setModel( $group)
                 );
+
+                $this->runObserver('creating', $item, $group);
+
                 $item->save();
+
+                $this->runObserver('created', $item, $group);
             }
 
             if(isset($group->{'Группы'}->{'Группа'}))

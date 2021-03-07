@@ -3,7 +3,7 @@
     "description": "1C Api",
     "type": "library",
     "keywords": ["laravel", "1c", "xml"],
-    "version": "0.0.1",
+    "version": "0.0.2",
     "license": "MIT",
     "authors": [
         {
