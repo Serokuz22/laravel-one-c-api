@@ -11,7 +11,12 @@ class XmlClassifierParser extends Xml
         $this->init($classifier);
     }
 
-    public function init(\SimpleXMLElement $classifier = null) : void
+    /**
+     * @param \SimpleXMLElement|null $classifier
+     * @return XmlClassifierParser
+     * @throws ExceptionOneCApi
+     */
+    public function init(\SimpleXMLElement $classifier = null) : XmlClassifierParser
     {
         if($classifier){
             $this->xml = $classifier;
@@ -22,9 +27,15 @@ class XmlClassifierParser extends Xml
             if(!$this->xml)
                 throw new ExceptionOneCApi('OneCApi: Parse error: not found ' . $fullPath);
         }
+        return $this;
     }
 
-    public function groups()
+    /**
+     * Парсим группы
+     * @return XmlClassifierParser
+     * @throws ExceptionOneCApi
+     */
+    public function groups() : XmlClassifierParser
     {
         if(isset($this->xml->{'Группы'}->{'Группа'})){
             $groupParser = new XmlGroupParser();
@@ -32,6 +43,21 @@ class XmlClassifierParser extends Xml
         }
         else
             throw new ExceptionOneCApi('OneCApi: Parse error: group not found.');
+
+        return $this;
     }
 
+    /**
+     * Парсим пропертисы
+     * @return XmlClassifierParser
+     */
+    public function properties() : XmlClassifierParser
+    {
+        if(isset($this->xml->{'Свойства'}->{'Свойство'})){
+            $propertyParser = new XmlPropertyParser();
+            $propertyParser->run($this->xml->{'Свойства'}->{'Свойство'});
+        }
+
+        return $this;
+    }
 }

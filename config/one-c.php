@@ -14,7 +14,7 @@ return [
     ],
     'models' => [
         'group' => [
-            'model'     => \App\Models\Group::class, // Класс модель для хранения групп
+            'model'     => \Serokuz\OneCApi\Models\OnecapiGroup::class, // Класс модель для хранения групп
             'id'        => 'sku', // Поле ИД для ид из 1с в модели
             'parent_id' => 'parent_sku', // Поле для родителя ди из 1с в моедли
             'fillable' => [
@@ -26,7 +26,7 @@ return [
             'observer'  => '',
         ],
         'product' => [
-            'model'     => \App\Models\Product::class, // Класс модель для хранения групп
+            'model'     => \Serokuz\OneCApi\Models\OnecapiProduct::class,
             'id'        => 'sku', // Поле ИД для ид из 1с в модели
             'parent_id' => 'group_sku', // Поле для родителя ди из 1с в моедли
             'fillable' => [
@@ -43,7 +43,7 @@ return [
             'observer'  => '',
         ],
         'attribute_values' => [
-            'model'     => '', // Класс модель для хранения групп
+            'model'     => \Serokuz\OneCApi\Models\OnecapiAttributeValue::class,
             'id'        => 'sku', // Поле ИД для ид из 1с в модели
             'fillable' => [
                 // Соответствие полей из 1с и модели
@@ -52,8 +52,39 @@ return [
                 'value' => 'Значение',
                 ]
         ],
+        'property' => [
+            'model'     => \Serokuz\OneCApi\Models\OnecapiProperty::class,
+            'id'        => 'sku', // Поле ИД для ид из 1с в модели
+            'fillable' => [
+                // Соответствие полей из 1с и модели
+                // Model->field => 1C->field
+                'name' => 'Наименование',
+            ]
+        ],
+        'property_variants' => [
+            'model'     => \Serokuz\OneCApi\Models\OnecapiPropertyVariant::class,
+            'id'        => 'sku', // Поле ИД для ид из 1с в модели
+            'parent_id' => 'property_sku',
+            'fillable' => [
+                // Соответствие полей из 1с и модели
+                // Model->field => 1C->field
+                'property_sku' => 'ИдЗначения',
+                'name' => 'Значение',
+            ]
+        ],
+        'property_values' => [
+            'model'     => \Serokuz\OneCApi\Models\OnecapiPropertyValue::class,
+            'id'        => 'product_sku', // Поле ИД для ид из 1с в модели
+            'fillable' => [
+                // Соответствие полей из 1с и модели
+                // Model->field => 1C->field
+                'property_sku' => 'Ид',
+                'property_variant_sku' => 'Значение',
+            ]
+        ],
+
         'price_type' => [
-            'model'     => '', // Класс модель для хранения групп
+            'model'     => \Serokuz\OneCApi\Models\OnecapiPriceType::class,
             'id'        => 'sku', // Поле ИД для ид из 1с в модели
             'fillable' => [
                 // Соответствие полей из 1с и модели
@@ -61,6 +92,35 @@ return [
                 'name' => 'Наименование',
                 'currency' => 'Валюта',
             ],
+            // Класс реализации своей логики в ключевых событиях
+            'observer'  => '',
+        ],
+
+        // остатки
+        'residue' => [
+            'model'     => \Serokuz\OneCApi\Models\OnecapiProduct::class,
+            'id'        => 'sku', // Поле ИД для ид из 1с в модели
+            'fillable' => [
+                // Соответствие полей из 1с и модели
+                // Model->field => 1C->field
+                'residue' => 'Количество',
+            ],
+            'observer'  => '', // только updating и updated
+        ],
+        'prices' => [
+            'model'     => \Serokuz\OneCApi\Models\OnecapiPrice::class,
+            'id'        => 'product_sku', // Поле ИД для ид из 1с в модели
+            'fillable' => [
+                // Соответствие полей из 1с и модели
+                // Model->field => 1C->field
+                'type_sku' => 'ИдТипаЦены',
+                'view' => 'Представление',
+                'price_per_unit' => 'ЦенаЗаЕдиницу',
+                'currency' => 'Валюта',
+                'unit' => 'Единица',
+                'ratio' => 'Коэффициент'
+            ],
+            'observer'  => '', // только updating и updated
         ]
     ],
 ];

@@ -36,7 +36,7 @@ class XmlGroupParser
                 $this->runObserver('updated', $item, $group);
 
             } else { // если нет, создаем новую запись
-                $item = new $this->model;
+                $item = new $this->model();
                 $item->setAttribute($this->id, (string)$group->{'Ид'});
                 $item->fill(
                     $this->setModel( $group)

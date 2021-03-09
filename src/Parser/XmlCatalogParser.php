@@ -37,7 +37,9 @@ class XmlCatalogParser extends Xml
      */
     public function runCatalog() : void
     {
-        $this->classifier->groups();
+        $this->classifier
+            ->groups()
+            ->properties();
         $this->products->run($this->xml->{'Каталог'}->{'Товары'}->{'Товар'});
     }
 

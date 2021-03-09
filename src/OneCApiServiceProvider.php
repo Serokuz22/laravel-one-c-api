@@ -12,12 +12,19 @@ class OneCApiServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $configPath = __DIR__ . '/../config/one-c.php';
+        $configPath = $this->getPatch() . 'config/one-c.php';
         $this->publishes([
             $configPath => config_path('one-c.php'),
         ],
             'config'
         );
+
+        $this->publishes([
+            $this->getPatch() . 'migrations' => database_path('migrations'),
+        ],
+            'migrations'
+        );
+
 
         include __DIR__.'/routes/api.php';
     }
@@ -29,7 +36,15 @@ class OneCApiServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $configPath = __DIR__ . '/../config/one-c.php';
+        $configPath = $this->getPatch() . 'config/one-c.php';
         $this->mergeConfigFrom($configPath, 'one-c');
+    }
+
+    /**
+     * @return string
+     */
+    private function getPatch()
+    {
+        return __DIR__ . '/../';
     }
 }

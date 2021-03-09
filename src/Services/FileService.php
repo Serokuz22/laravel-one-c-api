@@ -20,10 +20,33 @@ class FileService
      */
     public function unlinkImportDir() : void
     {
-        $tmpFiles = glob($this->config['import_dir'].DIRECTORY_SEPARATOR.'*.*');
-        if (is_array($tmpFiles)) {
-            foreach ($tmpFiles as $file) {
-                unlink($file);
+        $cdir = scandir($this->config['import_dir'].DIRECTORY_SEPARATOR);
+
+        foreach ($cdir as $path){
+            if($path != '.' && $path !='..') {
+                $path = $this->config['import_dir'] . DIRECTORY_SEPARATOR . $path;
+                if (is_file($path))
+                    unlink($path);
+                elseif (is_dir($path))
+                    $this->unlinkImportDirRecurse($path);
+            }
+        }
+    }
+
+    /**
+     * @param string $dir
+     */
+    private function unlinkImportDirRecurse(string $dir) : void
+    {
+        $cdir = scandir($dir);
+
+        foreach ($cdir as $path){
+            if($path != '.' && $path !='..') {
+                $path = $dir . DIRECTORY_SEPARATOR . $path;
+                if (is_file($path))
+                    unlink($path);
+                elseif (is_dir($path))
+                    $this->unlinkImportDirRecurse($path);
             }
         }
     }

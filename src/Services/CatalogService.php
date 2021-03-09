@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Config;
 use Serokuz\OneCApi\Auth;
 use Serokuz\OneCApi\Exception\ExceptionOneCApi;
 use Serokuz\OneCApi\Parser\XmlCatalogParser;
+use Serokuz\OneCApi\Parser\XmlOffersParser;
 use Serokuz\OneCApi\Response;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -110,8 +111,11 @@ class CatalogService
         switch ($fileName){
             case 'import.xml':
                 $catalogParser = new XmlCatalogParser();
-                $catalogParser->init($fileName);
-                $catalogParser->runCatalog();
+                $catalogParser->init($fileName)->runCatalog();
+                break;
+            case 'offers.xml':
+                $offersParse = new XmlOffersParser();
+                $offersParse->init($fileName)->run();
                 break;
         }
 

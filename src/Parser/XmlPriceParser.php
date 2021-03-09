@@ -3,36 +3,39 @@ declare(strict_types=1);
 
 namespace Serokuz\OneCApi\Parser;
 
-class XmlAttributeValuesParse
+
+class XmlPriceParser
 {
     use XmlModel;
+    use XmlObserver;
 
     public function __construct()
     {
-        $this->initModel('attribute_values');
+        $this->initModel('prices');
+        $this->initObserver('prices');
     }
 
     /**
-     * @param \SimpleXMLElement $attributes
+     * @param \SimpleXMLElement $prices
      * @param string $productId
      * @throws \ReflectionException
      */
-    public function run(\SimpleXMLElement $attributes, string $productId) : void
+    public function run(\SimpleXMLElement $prices, string $productId) : void
     {
         // если класс не определен то не парсим просто выходим без ошибок
         if(!$this->isInstantiable()) {
-            \Log::debug('OneCApi: attribute_values='.$this->model.' not used.');
+            \Log::debug('OneCApi: prices='.$this->model.' not used.');
             return;
         }
 
         // Удаляем старые
         $this->model::where($this->id, $productId)->delete();
 
-        foreach ($attributes as $attribute) {
+        foreach ($prices as $price) {
             $item = new $this->model();
             $item->setAttribute($this->id, $productId);
             $item->fill(
-                $this->setModel($attribute)
+                $this->setModel($price)
             );
             $item->save();
         }

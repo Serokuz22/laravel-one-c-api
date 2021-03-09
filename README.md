@@ -5,19 +5,20 @@ Laravel OneCApi
 
 Я реализую прямую загрузку в бд через модели.
 
-на данном этапе это dev вариант и загружается только группы и каталог, буду признателен если ктото решит потестировать.
-
 #Установка
 ````
-composer require serokuz/laravel-one-c-api --dev
+composer require serokuz/laravel-one-c-api
 ````
 
 #Публикуем config/one-c.php
 ```
 php artisan vendor:publish --provider "Serokuz\OneCApi\OneCApiServiceProvider" --tag="config"
+php artisan vendor:publish --provider "Serokuz\OneCApi\OneCApiServiceProvider" --tag="migrations"
+php artisan migrate
 ```
 
 #Observer
+=========
 Интерфейс позволяет выполнять свой код до записи в бд и после.
 
 В конфигурации значение для модели 'observer' => <Класс>
@@ -33,8 +34,8 @@ php artisan vendor:publish --provider "Serokuz\OneCApi\OneCApiServiceProvider" -
 
 Параметры функции: 
 
-Model $model  - модель с уже автоматически заполненными данными 
-SimpleXMLElement $xml = сырые данные которы вы можете использовать
++ Model $model  - модель с уже автоматически заполненными данными;
++ SimpleXMLElement $xml = сырые данные которы вы можете использовать.
 
 Тем самым вы можете реализовать свои специфические обработки данных
 

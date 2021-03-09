@@ -7,14 +7,22 @@ class XmlProductParser
     use XmlModel;
     use XmlObserver;
 
+    private $attributeValuesParse;
+
+    private $propertyValueParser;
+
     public function __construct()
     {
         $this->initModel('product');
         $this->initObserver('product');
+
+        $this->attributeValuesParse = new XmlAttributeValuesParse();
+        $this->propertyValueParser = new XmlPropertyValueParser();
     }
 
     /**
      * @param \SimpleXMLElement $products
+     * @throws \ReflectionException
      */
     public function run(\SimpleXMLElement $products) : void
     {
@@ -35,7 +43,7 @@ class XmlProductParser
                 $this->runObserver('updated', $item, $product);
 
             } else { // если нет, создаем новую запись
-                $item = new $this->model;
+                $item = new $this->model();
                 $item->setAttribute($this->id, (string)$product->{'Ид'});
                 $item->setAttribute($this->pId, (string)$product->{'Группы'}->{'Ид'});
                 $item->fill(
@@ -49,11 +57,29 @@ class XmlProductParser
                 $this->runObserver('created', $item, $product);
             }
 
+            // Парсим заруженные изображения
             if(isset($product->{'Картинка'})){
-                $imageClass = config('one-c.models.product.model');
-                $image = new $imageClass;
-                if($image instanceof XmlImageParserInterface)
-                    $image->run([$product->{'Картинка'}], $item);
+                $imageClass = config('one-c.models.product.images');
+                $reflectionClass = new \ReflectionClass($imageClass);
+                if($reflectionClass->isInstantiable()) {
+                    $image = new $imageClass();
+                    if ($image instanceof XmlImageParserInterface)
+                        $image->run([$product->{'Картинка'}], $item);
+                }
+            }
+
+            if(isset($product->{'ЗначенияРеквизитов'}->{'ЗначениеРеквизита'})){
+                $this->attributeValuesParse->run(
+                    $product->{'ЗначенияРеквизитов'}->{'ЗначениеРеквизита'},
+                    (string)$product->{'Ид'}
+                    );
+            }
+
+            if(isset($product->{'ЗначенияСвойств'}->{'ЗначенияСвойства'})){
+                $this->propertyValueParser->run(
+                    $product->{'ЗначенияСвойств'}->{'ЗначенияСвойства'},
+                    (string)$product->{'Ид'}
+                );
             }
         }
     }

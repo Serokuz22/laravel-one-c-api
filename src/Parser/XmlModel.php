@@ -51,4 +51,17 @@ trait XmlModel
         }
         return $data;
     }
+
+    /**
+     * Можно ли создать класс
+     * @return bool
+     * @throws \ReflectionException
+     */
+    private function isInstantiable() : bool
+    {
+        if(!$this->model)
+            return false;
+        $reflectionClass = new \ReflectionClass($this->model);
+        return $reflectionClass->isInstantiable();
+    }
 }

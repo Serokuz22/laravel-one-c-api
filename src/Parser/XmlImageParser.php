@@ -9,6 +9,6 @@ class XmlImageParser implements XmlImageParserInterface
 {
     public function run(array $images, Model $model): void
     {
-        \Log::debug('Add Images Model=' . $model->id . '\n'.$images);
+        \Log::debug('Add Images Model=' . $model->id . '\n'. implode('|',$images));
     }
 }
