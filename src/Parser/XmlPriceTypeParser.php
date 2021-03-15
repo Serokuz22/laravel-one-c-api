@@ -15,6 +15,9 @@ class XmlPriceTypeParser
         $this->initObserver('price_type');
     }
 
+    /**
+     * @param \SimpleXMLElement $priceTypes
+     */
     public function run(\SimpleXMLElement $priceTypes) : void
     {
         foreach ($priceTypes as $type) {

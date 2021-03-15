@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace Serokuz\OneCApi\Parser;
 
 use Illuminate\Database\Eloquent\Model;

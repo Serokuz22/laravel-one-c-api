@@ -13,6 +13,11 @@ class XmlPropertyVariantParser
         $this->initModel('property_variants');
     }
 
+    /**
+     * @param \SimpleXMLElement $variants
+     * @param string $propertyId
+     * @throws \ReflectionException
+     */
     public function run(\SimpleXMLElement $variants, string $propertyId) : void
     {
         // если класс не определен то не парсим просто выходим без ошибок

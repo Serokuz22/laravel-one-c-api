@@ -11,7 +11,10 @@ class OneCApiController extends Controller
 {
     private $catalogService;
 
-
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     public function index(Request $request)
     {
         $type = $request->get('type');
@@ -40,6 +43,11 @@ class OneCApiController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @return string
+     * @throws ExceptionOneCApi
+     */
     private function runCatalogService(Request $request)
     {
         if(!$this->catalogService)

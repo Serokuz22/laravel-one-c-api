@@ -30,18 +30,29 @@ class XmlOffersParser extends Xml
         return $this;
     }
 
+    /**
+     * Выполнить
+     */
     public function run()
     {
         $this->priceType()
             ->offer();
     }
 
+    /**
+     * Парсим типы цен
+     * @return XmlOffersParser
+     */
     public function priceType() : XmlOffersParser
     {
         $this->priceTypeParser->run($this->xml->{'ПакетПредложений'}->{'ТипыЦен'}->{'ТипЦены'});
         return $this;
     }
 
+    /**
+     * Парсим остатки и цены
+     * @return XmlOffersParser
+     */
     public function offer() : XmlOffersParser
     {
         $this->residueParser->run($this->xml->{'ПакетПредложений'}->{'Предложения'}->{'Предложение'});
