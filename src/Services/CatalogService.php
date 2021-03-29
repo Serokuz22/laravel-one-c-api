@@ -26,6 +26,10 @@ class CatalogService
         $this->config = Config::get('one-c.setup');
     }
 
+    /**
+     * @return string
+     * @throws ExceptionOneCApi
+     */
     public function route() : string
     {
         $mode = $this->request->get('mode');

@@ -70,7 +70,11 @@ class XmlGroupParser
                 if($item[$this->pId] != $parentId)
                     $item->setAttribute($this->pId, $parentId);
 
+                $this->runObserver('updating', $item, $group);
+
                 $item->update();
+
+                $this->runObserver('updated', $item, $group);
             } else {
                 $item = new $this->model;
                 $item->setAttribute($this->id, (string)$group->{'Ид'});
@@ -78,7 +82,11 @@ class XmlGroupParser
                 $item->fill(
                     $this->setModel($group)
                 );
+                $this->runObserver('creating', $item, $group);
+
                 $item->save();
+
+                $this->runObserver('created', $item, $group);
             }
 
             if(isset($group->{'Группы'}->{'Группа'}))

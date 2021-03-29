@@ -4,6 +4,7 @@ namespace Serokuz\OneCApi\Parser;
 
 use Serokuz\OneCApi\Exception\ExceptionOneCApi;
 
+
 abstract class Xml
 {
     protected $xml;
